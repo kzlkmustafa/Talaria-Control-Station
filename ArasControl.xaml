@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="Talaria.ArasControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Talaria"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Name="LeftBottomGrid" Margin="3" Background="#edf5ee">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="ArasGrid" Margin="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid Name="ArasLights" Margin="3" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="2" Grid.Column="1" Margin="2">
+                    <Border Background="#82c4b8" 
+                    CornerRadius="5"
+                    BorderBrush="Transparent"
+                    BorderThickness="1">
+                        <TextBlock
+                   x:Name="FirstArasTxt"
+                   Text="1"
+                   FontWeight="Bold"
+                   FontSize="32" 
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="2" Margin="2">
+                    <Border Background="#82c4b8" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1">
+                        <TextBlock
+                   x:Name="SecondArasTxt"
+                   Text="2"
+                   FontWeight="Bold"
+                   FontSize="32" 
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="3" Margin="2">
+                    <Border Background="#82c4b8" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1">
+                        <TextBlock
+                   x:Name="ThirdArasTxt"
+                   Text="3"
+                   FontWeight="Bold"
+                   FontSize="32" 
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="4" Margin="2">
+                    <Border Background="#82c4b8" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1">
+                        <TextBlock
+                   x:Name="FourthArasTxt"
+                   Text="4"
+                   FontWeight="Bold"
+                   FontSize="32" 
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="5" Margin="2">
+                    <Border Background="#82c4b8" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1">
+                        <TextBlock
+                   x:Name="FifthArasTxt"
+                   Text="5"
+                   FontWeight="Bold"
+                   FontSize="32" 
+                   Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+                <Grid Name="FirstArasColor" Grid.Row="4" Grid.Column="1" Margin="2">
+                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                </Grid>
+                <Grid Name="SecondArasColor" Grid.Row="4" Grid.Column="2" Margin="2">
+                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                </Grid>
+                <Grid Name="ThirdArasColor" Grid.Row="4" Grid.Column="3" Margin="2">
+                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                </Grid>
+                <Grid Name="FourthArasColor" Grid.Row="4" Grid.Column="4" Margin="2">
+                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                </Grid>
+                <Grid Name="FifthArasColor" Grid.Row="4" Grid.Column="5" Margin="2">
+                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                </Grid>
+
+            </Grid>
+            <Grid Name="ArasNameGrid" Grid.Row="1" Margin="3">
+                <TextBlock
+                x:Name="ArasName"
+                Text="ARAS"
+                FontWeight="Bold"
+                FontSize="28"
+                Foreground="Black"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+            </Grid>
+            <Grid Name="ArasErrorGrid" Grid.Row="2" Margin="3">
+                <TextBlock
+                x:Name="ArasError"
+                Text=""
+                FontWeight="Bold"
+                FontSize="12"
+                Foreground="Black"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Red"/>
+            </Grid>
+
+        </Grid>
+        <Grid Name="ManuelLeavingGrid" Margin="3" Grid.Column="1">
+            <Grid>
+                <Ellipse Fill="#d8ece3" Width="130" Height="130" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Width="100" Height="100" Click="ManuelLeaving_Click" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Fill="#71d183"/>
+                                <TextBlock Text="Manuel Ayrılma" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" FontSize="16" FontWeight="Bold"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>
