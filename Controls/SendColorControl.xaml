@@ -30,6 +30,7 @@
             <RowDefinition Height="6*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        
         <Grid Name="sendColorGridChild" Grid.Row="1" Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Talaria.Models;
+using System.Net.NetworkInformation;
 
 namespace Talaria
 {
@@ -24,32 +25,60 @@ namespace Talaria
     /// </summary>
     public partial class GMapTabloControl : UserControl
     {
-        public MapValueModel myMapValue { get; set; }
         public GMapTabloControl()
         {
             InitializeComponent();
 
-            myMapValue = new MapValueModel
-            {
-                latitude = 39.9384,
-                longitude = 32.8189,
-                height = 200,
-            };
 
-            InitializeMap();
-            UpdateMapInfoValue(myMapValue);
         }
-        private void InitializeMap()
+
+
+        public MyGmap gmapData
+        {
+            get { return (MyGmap)GetValue(gmapDataProperty); }
+            set
+            {
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => SetValue(gmapDataProperty, value));
+                }
+                else
+                {
+                    SetValue(gmapDataProperty, value);
+                }
+            }
+        }
+
+        public static readonly DependencyProperty gmapDataProperty =
+            DependencyProperty.Register("PersonData", typeof(MyGmap), typeof(GMapTabloControl), new PropertyMetadata(null, OnGmapChanged));
+
+        private static void OnGmapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is GMapTabloControl control)
+            {
+                var info = e.NewValue as MyGmap;
+                control.Dispatcher.Invoke(() =>
+                {
+                    control.InitializeMap((double)info.gps1Latitude, (double)info.gps1Longitude);
+                    control.UpdateMapInfoValue(info.gps1Latitude, info.gps1Longitude, info.gps1altitude);
+                });
+            }
+        }
+
+
+
+
+        private void InitializeMap(double mygps1Latitude, double mygps1Longitude)
         {
             MainMap.MapProvider = GMapProviders.GoogleMap;
-            MainMap.Position = new PointLatLng(myMapValue.latitude, myMapValue.longitude); // Statik konum (Ankara)
+            MainMap.Position = new PointLatLng(mygps1Latitude, mygps1Longitude); // Statik konum (Ankara)
             MainMap.MinZoom = 2;
             MainMap.MaxZoom = 18;
             MainMap.Zoom = 14;
             MainMap.ShowCenter = false;
 
             // Statik konum için marker ekleme
-            var marker = new GMapMarker(new PointLatLng(myMapValue.latitude, myMapValue.longitude))
+            var marker = new GMapMarker(new PointLatLng(mygps1Latitude, mygps1Longitude))
             {
                 Shape = new System.Windows.Shapes.Ellipse
                 {
@@ -63,11 +92,11 @@ namespace Talaria
             MainMap.Markers.Add(marker);
         }
 
-        public void UpdateMapInfoValue(MapValueModel mapValueModel)
+        public void UpdateMapInfoValue(float mylatitude, float mylongitude, float myheight)
         {
-            latitudetxt.Text = $"Enlem: {mapValueModel.latitude}";
-            longitudetxt.Text = $"Boylam: {mapValueModel.longitude}";
-            heighttxt.Text = $"Yükseklik: {mapValueModel.height}";
+            latitudetxt.Text = $"Enlem: {mylatitude}";
+            longitudetxt.Text = $"Boylam: {mylongitude}";
+            heighttxt.Text = $"Yükseklik: {myheight}";
         }
     }
 }

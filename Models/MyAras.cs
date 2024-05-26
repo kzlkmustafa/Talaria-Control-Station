@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Talaria.Models
 {
-    public class Rotation3DValueModel
+    public class MyAras
     {
-        public string roll { get; set; }
-        public string pitch { get; set; }
-        public string yaw { get; set; }
+        public string ErrorCode { get; set; }
     }
 }

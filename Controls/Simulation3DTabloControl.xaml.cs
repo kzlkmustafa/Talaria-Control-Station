@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +24,6 @@ namespace Talaria
     /// </summary>
     public partial class Simulation3DTabloControl : UserControl
     {
-        public Rotation3DValueModel myrotation3DValueModel { get; set; }
 
         private AxisAngleRotation3D rotationX;
         private AxisAngleRotation3D rotationY;
@@ -32,12 +32,6 @@ namespace Talaria
         {
             InitializeComponent();
 
-            myrotation3DValueModel = new Rotation3DValueModel
-            {
-                roll = "15",
-                pitch = "17",
-                yaw = "0",
-            };
 
             Transform3DGroup transformGroup = new Transform3DGroup();
 
@@ -81,26 +75,54 @@ namespace Talaria
 
             // Add the model to the viewport
             helixViewport.Children.Add(new ModelVisual3D { Content = model });
-            OnRotate(myrotation3DValueModel);
-        }
-        private void OnRotate(Rotation3DValueModel rotation3D)
-        {
-            if (double.TryParse(rotation3D.roll, out double x) &&
-                double.TryParse(rotation3D.pitch, out double y) &&
-                double.TryParse(rotation3D.yaw, out double z))
-            {
-                rotationX.Angle = x;
-                rotationY.Angle = y;
-                rotationZ.Angle = z;
-            }
-            else
-            {
-                MessageBox.Show("Please enter valid numeric values for rotations.", "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
 
-            rollValueTxt.Text = rotation3D.roll;
-            pitchValueTxt.Text=rotation3D.pitch;
-            yawValueTxt.Text=rotation3D.yaw;
+        }
+
+
+        public myRotationThreeD threeDTabloData
+        {
+            get { return (myRotationThreeD)GetValue(threeDataProperty); }
+            set
+            {
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => SetValue(threeDataProperty, value));
+                }
+                else
+                {
+                    SetValue(threeDataProperty, value);
+                }
+            }
+        }
+
+        public static readonly DependencyProperty threeDataProperty =
+            DependencyProperty.Register("PersonData", typeof(myRotationThreeD), typeof(Simulation3DTabloControl), new PropertyMetadata(null, OnThreeChanged));
+
+        private static void OnThreeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is Simulation3DTabloControl control)
+            {
+                var info = e.NewValue as myRotationThreeD;
+                control.Dispatcher.Invoke(() =>
+                {
+                    control.OnRotate(info.roll, info.pitch, info.yaw);
+                });
+            }
+        }
+
+
+
+        private void OnRotate(float myroll, float mypitch, float myyaw)
+        {
+            
+                rotationX.Angle = (double)myroll;
+                rotationY.Angle = (double)mypitch;
+                rotationZ.Angle = (double)myyaw;
+            
+
+            rollValueTxt.Text = myroll.ToString();
+            pitchValueTxt.Text= mypitch.ToString();
+            yawValueTxt.Text= myyaw.ToString();
 
         }
     }

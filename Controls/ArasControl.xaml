@@ -88,20 +88,20 @@
                    Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </Grid>
-                <Grid Name="FirstArasColor" Grid.Row="4" Grid.Column="1" Margin="2">
-                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                <Grid x:Name="FirstArasColor" Grid.Row="4" Grid.Column="1" Margin="2" Background="#f7716e">
+                    <Border CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
                 </Grid>
-                <Grid Name="SecondArasColor" Grid.Row="4" Grid.Column="2" Margin="2">
-                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                <Grid x:Name="SecondArasColor" Grid.Row="4" Grid.Column="2" Margin="2" Background="#f7716e">
+                    <Border CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
                 </Grid>
-                <Grid Name="ThirdArasColor" Grid.Row="4" Grid.Column="3" Margin="2">
-                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                <Grid x:Name="ThirdArasColor" Grid.Row="4" Grid.Column="3" Margin="2" Background="#f7716e">
+                    <Border CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
                 </Grid>
-                <Grid Name="FourthArasColor" Grid.Row="4" Grid.Column="4" Margin="2">
-                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                <Grid x:Name="FourthArasColor" Grid.Row="4" Grid.Column="4" Margin="2" Background="#f7716e">
+                    <Border CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
                 </Grid>
-                <Grid Name="FifthArasColor" Grid.Row="4" Grid.Column="5" Margin="2">
-                    <Border Background="#f7716e" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
+                <Grid x:Name="FifthArasColor" Grid.Row="4" Grid.Column="5" Margin="2" Background="#f7716e">
+                    <Border CornerRadius="5" BorderBrush="Transparent" BorderThickness="1"></Border>
                 </Grid>
 
             </Grid>
@@ -116,11 +116,11 @@
                 VerticalAlignment="Center"/>
             </Grid>
             <Grid Name="ArasErrorGrid" Grid.Row="2" Margin="3">
-                <TextBlock
+                <TextBox
                 x:Name="ArasError"
                 Text=""
                 FontWeight="Bold"
-                FontSize="12"
+                FontSize="10"
                 Foreground="Black"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"

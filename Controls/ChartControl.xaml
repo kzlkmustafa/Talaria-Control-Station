@@ -12,7 +12,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <lvc:CartesianChart Name="MyChart" Series="{Binding}" Grid.Row="0"/>
+        <lvc:CartesianChart Name="MyChart" Series="{Binding}" Grid.Row="0">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis LabelFormatter="{Binding Formatter}" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
 
         <Grid Grid.Row="1" Margin="2">
             <Border Background="#82c4b8" 

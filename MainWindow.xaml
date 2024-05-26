@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:local="clr-namespace:Talaria"
+        WindowStartupLocation="Manual"
+        Loaded="Window_Loaded"
         mc:Ignorable="d"
         Title="Talaria" Height="1080" Width="1920">
 
@@ -34,7 +36,7 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Grid  Grid.Column="0">
-                    <local:SatelliteInfoControl/>
+                    <local:SatelliteInfoControl x:Name="satelliteInfoControl"/>
                 </Grid>
                 <Grid Grid.Column="1">
                     <local:SendColorControl/>
@@ -42,12 +44,12 @@
                 
             </Grid>
             <Grid Name="LeftBottomGrid" Grid.Row="2">
-                <local:ArasControl/>
+                <local:ArasControl x:Name="ArasDataControl"/>
             </Grid>
         </Grid>
         <Grid Name="MiddleGrid" Grid.Row="1" Grid.Column="1" Margin="3">
             <Grid Name="ChartTabloGrid">
-            <local:ChartsTabloControl/>
+            <local:ChartsTabloControl x:Name="ChartsTabloDataControl"/>
 
         </Grid>
         </Grid>
@@ -60,10 +62,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Name="GmapGrid" Grid.Row="0" Grid.Column="0" Margin="3">
-                <local:GMapTabloControl/>
+                <local:GMapTabloControl x:Name="gmapDataControl"/>
             </Grid>
             <Grid Name="ThreeDSimulationGrid" Grid.Row="1" Grid.Column="0" Margin="3">
-                <local:Simulation3DTabloControl/>
+                <local:Simulation3DTabloControl x:Name="threeDTabloDataControl"/>
             </Grid>
 
         </Grid>

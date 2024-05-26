@@ -32,14 +32,14 @@ namespace Talaria
         public SeriesCollection Chart6Series { get; set; }
         public SeriesCollection Chart7Series { get; set; }
         public SeriesCollection Chart8Series { get; set; }
-        public ChartLastValueModel MyChartInfo1 { get; set; }
-        public ChartLastValueModel MyChartInfo2 { get; set; }
-        public ChartLastValueModel MyChartInfo3 { get; set; }
-        public ChartLastValueModel MyChartInfo4 { get; set; }
-        public ChartLastValueModel MyChartInfo5 { get; set; }
-        public ChartLastValueModel MyChartInfo6 { get; set; }
-        public ChartLastValueModel MyChartInfo7 { get; set; }
-        public ChartLastValueModel MyChartInfo8 { get; set; }
+        public ChartLastValueModel Tempature { get; set; }
+        public ChartLastValueModel BatteryVoltage { get; set; }
+        public ChartLastValueModel Pressure1 { get; set; }
+        public ChartLastValueModel Pressure2 { get; set; }
+        public ChartLastValueModel DescentSpeed { get; set; }
+        public ChartLastValueModel Height1 { get; set; }
+        public ChartLastValueModel AltitudeDif { get; set; }
+        public ChartLastValueModel Height2 { get; set; }
         public ChartsTabloControl()
         {
             InitializeComponent();
@@ -51,7 +51,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -59,7 +59,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -67,7 +67,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -75,7 +75,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -83,7 +83,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -91,7 +91,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -99,7 +99,7 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
@@ -107,54 +107,53 @@ namespace Talaria
             {
                 new LineSeries
                 {
-                    Values = new ChartValues<double> { 2, 1, 3, 5, 3, 4, 6 },
+                    Values = new ChartValues<double> { },
                     Fill = null
                 }
             };
 
 
-            MyChartInfo1 = new ChartLastValueModel
+            Tempature = new ChartLastValueModel
             {
                 value = "Sıcaklık",
                 type = "°C"
             };
-            MyChartInfo2 = new ChartLastValueModel
+            BatteryVoltage = new ChartLastValueModel
             {
                 value = "Pil Gerilimi",
                 type = "V"
             };
-            MyChartInfo3 = new ChartLastValueModel
+            Pressure1 = new ChartLastValueModel
             {
                 value = "Taşıyıcı Basıncı",
-                type = "Bar"
+                type = "Pa"
             };
-            MyChartInfo4 = new ChartLastValueModel
+            Pressure2 = new ChartLastValueModel
             {
                 value = "Görev Yükü Basıncı",
-                type = "Bar"
+                type = "Pa"
             };
-            MyChartInfo5 = new ChartLastValueModel
+            DescentSpeed = new ChartLastValueModel
             {
                 value = "İniş Hızı",
                 type = "m/s"
             };
-            MyChartInfo6 = new ChartLastValueModel
+            Height1 = new ChartLastValueModel
             {
                 value = "Taşıyıcı Yüksekliği",
                 type = "m"
             };
-            MyChartInfo7 = new ChartLastValueModel
+            AltitudeDif = new ChartLastValueModel
             {
                 value = "İrtifa Farkı",
                 type = "m"
             };
-            MyChartInfo8 = new ChartLastValueModel
+            Height2 = new ChartLastValueModel
             {
                 value = "Görev Yükü Yüksekliği",
                 type = "m"
             };
-
-            StartUpdatingSeries();
+            
 
 
             var chartControls = new ChartControl[]
@@ -177,29 +176,43 @@ namespace Talaria
         }
 
 
-        private void StartUpdatingSeries()
+        
+
+
+        public MyChartTablo ChartTabloData
         {
-            DispatcherTimer timer = new DispatcherTimer
+            get { return (MyChartTablo)GetValue(ChartTabloProperty); }
+            set
             {
-                Interval = TimeSpan.FromSeconds(1)
-            };
-            timer.Tick += Timer_Tick;
-            timer.Start();
+                if (!Dispatcher.CheckAccess())
+                {
+                    Dispatcher.Invoke(() => SetValue(ChartTabloProperty, value));
+                }
+                else
+                {
+                    SetValue(ChartTabloProperty, value);
+                }
+            }
         }
+        public static readonly DependencyProperty ChartTabloProperty =
+            DependencyProperty.Register("PersonData", typeof(MyChartTablo), typeof(ChartsTabloControl), new PropertyMetadata(null, OnChartTabloChanged));
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private static void OnChartTabloChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            UpdateSeries(Chart1Series, ChartControl1, MyChartInfo1);
-            UpdateSeries(Chart2Series, ChartControl2, MyChartInfo2);
-            UpdateSeries(Chart3Series, ChartControl3, MyChartInfo3);
-            UpdateSeries(Chart4Series, ChartControl4, MyChartInfo4);
-            UpdateSeries(Chart5Series, ChartControl5, MyChartInfo5);
-            UpdateSeries(Chart6Series, ChartControl6, MyChartInfo6);
-            UpdateSeries(Chart7Series, ChartControl7, MyChartInfo7);
-            UpdateSeries(Chart8Series, ChartControl8, MyChartInfo8);
+            if(d is ChartsTabloControl control)
+            {
+                var info = e.NewValue as MyChartTablo;
+                control.UpdateSeries(control.Chart1Series, control.ChartControl1, control.Tempature, info.tempature);
+                control.UpdateSeries(control.Chart2Series, control.ChartControl2, control.BatteryVoltage, info.batteryVoltage);
+                control.UpdateSeries(control.Chart3Series, control.ChartControl3, control.Pressure1, info.pressure1);
+                control.UpdateSeries(control.Chart4Series, control.ChartControl4, control.Pressure2, info.pressure2);
+                control.UpdateSeries(control.Chart5Series, control.ChartControl5, control.DescentSpeed, info.descentSpeed);
+                control.UpdateSeries(control.Chart6Series, control.ChartControl6, control.Height1, info.height1);
+                control.UpdateSeries(control.Chart7Series, control.ChartControl7, control.AltitudeDif, info.altitudeDif);
+                control.UpdateSeries(control.Chart8Series, control.ChartControl8, control.Height2, info.height2);
+            }
         }
-
-        private void UpdateSeries(SeriesCollection seriesCollection, ChartControl chartControl, ChartLastValueModel chartModel)
+        private void UpdateSeries(SeriesCollection seriesCollection, ChartControl chartControl, ChartLastValueModel chartModel, object newData)
         {
             var lineSeries = seriesCollection[0] as LineSeries;
             if (lineSeries != null)
@@ -207,9 +220,8 @@ namespace Talaria
                 var values = lineSeries.Values as ChartValues<double>;
                 if (values != null)
                 {
-                    Random rnd = new Random();
-                    double newValue = rnd.Next(0, 10);
-                    values.Add(newValue); // Rastgele bir değer ekleyin
+                    double newValue = Convert.ToDouble(newData); // Gelen yeni veriyi double'a dönüştürün
+                    values.Add(newValue); // Yeni değeri ekleyin
                     if (values.Count > 20) // Maksimum veri noktası sayısını sınırlayın
                     {
                         values.RemoveAt(0);
@@ -217,6 +229,7 @@ namespace Talaria
                     chartControl.UpdateLatestValue(chartModel.value, newValue, chartModel.type);
                 }
             }
+
         }
     }
 }
