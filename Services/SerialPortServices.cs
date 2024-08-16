@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,30 @@ namespace Talaria.Services
 {
     public class SerialPortServices
     {
+        private static readonly string filePath = "C:\\Users\\mstfm\\Desktop\\deneme\\output.txt"; // txt Dosya yolu
+        private static readonly string excelFilePath = "C:\\Users\\mstfm\\Desktop\\deneme\\sensorData.xlsx"; // Excel Dosya yolu
+        private Timer _timer;
+
+
         private SerialPort _serialPort;
         public event Action<SensorData> DataReceived;
         public event Action<string> DataReceivedString;
         private readonly SensorDataRepository _repository;
-        public SerialPortServices(string portName, SensorDataRepository repository, int baudRate = 9600, Parity parity = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One)
+        private SensorDataForExcel _forExcel;
+
+        //public SerialPortServices(string portName, SensorDataRepository repository, int baudRate = 9600, Parity parity = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One)
+        //{
+        //    _serialPort = new SerialPort(portName, baudRate, parity, dataBits, stopBits);
+        //    _serialPort.DataReceived += OnDataReceived;
+        //    _repository = repository;
+        //}
+        public void getTextDataServices()
         {
-            _serialPort = new SerialPort(portName, baudRate, parity, dataBits, stopBits);
-            _serialPort.DataReceived += OnDataReceived;
-            _repository = repository;
+            _timer = new Timer(OnTimerElapsed, null, 0, 2000);
+        }
+        private void OnTimerElapsed(object state)
+        {
+            OnDataReceived(null, null);
         }
         public void Open()
         {
@@ -38,9 +54,18 @@ namespace Talaria.Services
             }
         }
 
-        private void OnDataReceived(object sender, SerialDataReceivedEventArgs e)
+        private static async Task<string> ReadFileAsync(string path)
         {
-            string data = _serialPort.ReadExisting();
+            using (StreamReader reader = new StreamReader(path))
+            {
+                return await reader.ReadToEndAsync();
+            }
+        }
+
+        private async void OnDataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            //string data = _serialPort.ReadExisting();
+            string data = await ReadFileAsync(filePath);
             ProcessData(data);
             DataReceivedString?.Invoke(data);
         }
@@ -56,8 +81,8 @@ namespace Talaria.Services
 
                 if (int.TryParse(dataArray[1], out int satelliteStatus))
                     sensorData.satelliteStatus = satelliteStatus;
-
-                sensorData.ErrorCode = dataArray[2];
+                
+                    sensorData.ErrorCode = dataArray[2];
 
                 if (DateTime.TryParseExact(dataArray[3].Replace(",", "").Trim(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime sendTime))
                     sensorData.sendTime = sendTime;
@@ -110,7 +135,10 @@ namespace Talaria.Services
                 if (int.TryParse(dataArray[20], out int teamNumber))
                     sensorData.TeamNumber = teamNumber;
 
-                _repository.AddSensorData(sensorData);
+                //_repository.AddSensorData(sensorData);
+
+                _forExcel = new SensorDataForExcel(excelFilePath);
+                _forExcel.AddSensorData(sensorData);
 
                 DataReceived?.Invoke(sensorData);
             }

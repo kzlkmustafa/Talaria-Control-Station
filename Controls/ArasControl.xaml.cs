@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Talaria.Models;
 using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Talaria
 {
@@ -26,7 +27,8 @@ namespace Talaria
     {
         private static Brush[] ArasBackground = {
             (Brush)new BrushConverter().ConvertFromString("#23FB00"),
-            (Brush)new BrushConverter().ConvertFromString("#f7716e")};
+            (Brush)new BrushConverter().ConvertFromString("#f7716e")
+        };
 
         public static string[] myerror =
         {
@@ -36,6 +38,7 @@ namespace Talaria
             "Görev yükü konum verisi alınamıyor",
             "Ayrılma gerçekleşmiyor"
         };
+
         public ArasControl()
         {
             InitializeComponent();
@@ -64,30 +67,68 @@ namespace Talaria
             if (d is ArasControl control)
             {
                 var info = e.NewValue as MyAras;
+
+                if (info == null || info.ErrorCode == null || info.ErrorCode.Length != 5 || !info.ErrorCode.All(c => c == '0' || c == '1'))
+                {
+                    control.Dispatcher.Invoke(() =>
+                    {
+                        control.ArasError.Text = "Geçersiz ARAS hata kodu formatı. Lütfen porttan gelen veriyi kontrol edin.";
+                        control.FirstArasColor.Background = Brushes.Transparent;
+                        control.SecondArasColor.Background = Brushes.Transparent;
+                        control.ThirdArasColor.Background = Brushes.Transparent;
+                        control.FourthArasColor.Background = Brushes.Transparent;
+                        control.FifthArasColor.Background = Brushes.Transparent;
+                        control.ManuelLeaving.IsEnabled = false;
+                    });
+                    return;
+                }
+
+
                 int[] result = new int[info.ErrorCode.Length];
 
                 for (int i = 0; i < info.ErrorCode.Length; i++)
                 {
                     result[i] = int.Parse(info.ErrorCode[i].ToString());
                 }
+
+
                 control.Dispatcher.Invoke(() =>
                 {
-
                     if (result != null && result.Length > 0)
                     {
-                        control.FirstArasColor.Background = ArasBackground[result[0]];
-                        if (result.Length > 1) control.SecondArasColor.Background = ArasBackground[result[1]];
-                        if (result.Length > 2) control.ThirdArasColor.Background = ArasBackground[result[2]];
-                        if (result.Length > 3) control.FourthArasColor.Background = ArasBackground[result[3]];
-                        if (result.Length > 4) control.FifthArasColor.Background = ArasBackground[result[4]];
+                        var backgroundControls = new[]
+                        {
+                        control.FirstArasColor,
+                        control.SecondArasColor,
+                        control.ThirdArasColor,
+                        control.FourthArasColor,
+                        control.FifthArasColor
+                        };
+                        for (int i = 0; i < result.Length && i < backgroundControls.Length; i++)
+                        {
+                            backgroundControls[i].Background = ArasBackground[result[i]];
+                        }
 
                         string errors = "";
-                        
-                        if (result[0] == 0) errors += myerror[0];
-                        if (result.Length > 1 && result[1] == 0) errors += (errors == "" ? "" : ", ") + myerror[1];
-                        if (result.Length > 2 && result[2] == 0) errors += (errors == "" ? "" : ", ") + myerror[2];
-                        if (result.Length > 3 && result[3] == 0) errors += (errors == "" ? "" : ", ") + myerror[3];
-                        if (result.Length > 4 && result[4] == 0) errors += (errors == "" ? "" : ", ") + myerror[4];
+
+                        for (int i = 0; i < result.Length && i < myerror.Length; i++)
+                        {
+                            if (result[i] == 1)
+                            {
+                                if (errors != "")
+                                {
+                                    errors += ", ";
+                                }
+                                errors += myerror[i];
+                            }
+                        }
+
+                        control.ManuelLeaving.IsEnabled = (result[4] == 1);
+
+                        if (string.IsNullOrEmpty(errors))
+                        {
+                            errors = "Tüm sistemler normal.";
+                        }
 
                         control.ArasError.Text = errors;
                     }

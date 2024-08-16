@@ -43,19 +43,21 @@ namespace Talaria
             _dbContext = new PortTestContextDb();
             _repository = new SensorDataRepository(_dbContext);
 
-            LoadData();
+            
+            LoadData();     
         }
         private void LoadData()
         {
-            _serialPortServices = new SerialPortServices(MyPortName, _repository);
-            try
-            {
-                _serialPortServices.Open();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening port {MyPortName}: {ex.Message}");
-            }
+            _serialPortServices = new SerialPortServices();
+            //try
+            //{
+            //    _serialPortServices.Open();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error opening port {MyPortName}: {ex.Message}");
+            //}
+            _serialPortServices.getTextDataServices();
             _serialPortServices.DataReceived += OnDataReceived;
         }
         private void OnDataReceived(SensorData myData)
@@ -117,10 +119,10 @@ namespace Talaria
 
         protected override void OnClosed(EventArgs e)
         {
-            if (_serialPortServices != null)
-            {
-                _serialPortServices.Close();
-            }
+            //if (_serialPortServices != null)
+            //{
+            //    _serialPortServices.Close();
+            //}
 
 
             base.OnClosed(e);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using System.Windows.Shapes;
 using Talaria.Models;
 using Talaria.Services;
 using Talaria.Windows;
+using System.IO;
 
 namespace Talaria
 {
@@ -29,6 +31,7 @@ namespace Talaria
         
         private PortTestContextDb _dbContext;
         private SensorDataRepository _repository;
+        private SensorDataForExcel _forExcel;
         public SatelliteInfoControl()
         {
             _dbContext = new PortTestContextDb();
@@ -48,6 +51,7 @@ namespace Talaria
                 else
                 {
                     SetValue(satelliteInfoDataProperty, value);
+                    //deneme
                 }
             }
         }
@@ -91,13 +95,45 @@ namespace Talaria
         {
             try
             {
-                List<SensorData> sensorDataList = _repository.GetList();
-                DataTable dataTable = ConvertToDataTable(sensorDataList);
-                SaveToExcel(dataTable);
+                //List<SensorData> sensorDataList = _repository.GetList();
+                //DataTable dataTable = ConvertToDataTable(sensorDataList);
+                //SaveToExcel(dataTable);
+                string filePath = @"C:\Users\mstfm\Desktop\deneme\sensorData.xlsx"; // Excel Yolu
+                //OpenExcelFile(filePath);
+                if (File.Exists(filePath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true
+                    };
+
+                    Process.Start(startInfo);
+                }
+
+                // Uygulamayı kapat
+                Application.Current.Shutdown();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void OpenExcelFile(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = filePath,
+                    UseShellExecute = true // Dosyanın varsayılan uygulamayla açılmasını sağlar.
+                };
+
+                Process.Start(startInfo);
+            }
+            else
+            {
+                MessageBox.Show("Dosya bulunamadı.", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private DataTable ConvertToDataTable(List<SensorData> data)

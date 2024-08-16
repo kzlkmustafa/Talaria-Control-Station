@@ -36,16 +36,16 @@ namespace Talaria.Windows
         }
         private void LoadData()
         {
-            _serialPortServices = new SerialPortServices(MyPortName, _repository);
-            try
-            {
-                _serialPortServices.Open();
-                MessageShow.Text += $"Switched to port {MyPortName}\n";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening port {MyPortName}: {ex.Message}");
-            }
+            //_serialPortServices = new SerialPortServices(MyPortName, _repository);
+            //try
+            //{
+            //    _serialPortServices.Open();
+            //    MessageShow.Text += $"Switched to port {MyPortName}\n";
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error opening port {MyPortName}: {ex.Message}");
+            //}
             _serialPortServices.DataReceivedString += OnDataReceived;
         }
         private void OnDataReceived(string myData)
@@ -57,10 +57,10 @@ namespace Talaria.Windows
         }
         protected override void OnClosed(EventArgs e)
         {
-            if (_serialPortServices != null)
-            {
-                _serialPortServices.Close();
-            }
+            //if (_serialPortServices != null)
+            //{
+            //    _serialPortServices.Close();
+            //}
 
 
             base.OnClosed(e);

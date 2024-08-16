@@ -131,7 +131,7 @@
         <Grid Name="ManuelLeavingGrid" Margin="3" Grid.Column="1">
             <Grid>
                 <Ellipse Fill="#d8ece3" Width="130" Height="130" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Width="100" Height="100" Click="ManuelLeaving_Click" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="ManuelLeaving" Width="100" Height="100" Click="ManuelLeaving_Click" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Grid>
